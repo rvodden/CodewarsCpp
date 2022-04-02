@@ -1,0 +1,10 @@
+#ifndef CPP_TEMPLATE_VERSION_H
+#define CPP_TEMPLATE_VERSION_H
+
+
+// the configured options and settings for Tutorial
+#define TEMPLATE_VERSION_MAJOR @codewars_VERSION_MAJOR@
+#define TEMPLATE_VERSION_MINOR @codewars_VERSION_MINOR@
+#define TEMPLATE_VERSION_PATCH @codewars_VERSION_PATCH@
+
+#endif //CPP_TEMPLATE_VERSION_H
