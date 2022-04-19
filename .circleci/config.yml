@@ -1,0 +1,52 @@
+version: 2.1
+executors:
+  runner:
+    docker:
+      - image: cimg/base:2022.04
+
+jobs:
+  build:
+    executor: runner
+    steps:
+      - checkout
+      - run:
+          name: Create build directories
+          command: |
+            mkdir -p build
+      - run:
+          name: Setup cmake and build artifacts
+          command: |
+            cd build
+            cmake ..
+            cmake --build . --config Release
+      - persist_to_workspace:
+          root: .
+          paths:
+          - build
+
+  test:
+    executor: runner
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Create test directory
+          command: |
+            cd build
+            mkdir -p Test
+      - run:
+          name: Execute Tests
+          command: |
+            cd build
+            ctest
+      - store_test_results:
+          path: build/test/hello_test/report
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build

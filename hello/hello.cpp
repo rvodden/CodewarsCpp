@@ -3,7 +3,8 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include <locale>
+#include <cmath>
+
 
 int hello::square_digits(int num) {
   std::stringstream sstream;
@@ -99,4 +100,46 @@ std::string hello::to_camel_case(const std::string& text) {
   return stream[delimiters.length()].str();
 }
 
+int hello::countBits(const unsigned long long& num) {
+  std::bitset<64> bitset = std::bitset<64>(num);
+  return bitset.count();
+};
+
+int hello::digital_root(int n) {
+  const int base = 10;
+  if (n < base) {
+    return n;
+  }
+
+  int sum = 0;
+  do {
+    std::div_t result = std::div(n, base);
+    sum += result.rem;
+    n = result.quot;
+  } while ( n != 0 );
+
+  if (sum >= base) {
+    sum = digital_root(sum);
+  }
+
+  return sum;
+}
+
+std::map<char, unsigned> hello::countLetters(const std::string& string) {
+  std::map<char, unsigned> m = {}; // start with empty map
+  for (const char&c : string) {
+    m[c]++;
+  }
+
+  return m;
+}
+
+long hello::zeros(const long& n) {
+  long k = std::floor(std::log(n) / std::log(5));
+  long val = 0;
+  for (long i = 1; i <= k; i++) {
+    val += std::floor( n / (std::pow(5, i)));
+  }
+  return val;
+}
 // private functions
