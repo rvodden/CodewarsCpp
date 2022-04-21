@@ -51,5 +51,7 @@ _deps
 ### CMake Patch ###
 # External projects
 *-prefix/
+build/
+cmake-build-debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/c++,cmake

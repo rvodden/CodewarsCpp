@@ -31,5 +31,7 @@ long zeros(const long&);
 PeakData pick_peaks(std::vector<int> const&);
 int maxSequence(std::vector<int> const&);
 
+std::string range_extraction(std::vector<int> const&);
+
 
 }  // namespace hello

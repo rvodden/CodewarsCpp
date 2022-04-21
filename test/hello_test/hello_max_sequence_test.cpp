@@ -7,6 +7,9 @@
 
 #include "hello.h"
 
-TEST(libhelloTest, maxSequence) {
+using hello::maxSequence;
 
+TEST(libhelloTest, maxSequence) {
+  EXPECT_EQ(maxSequence({}), 0);
+  EXPECT_EQ(maxSequence({-2, 1, -3, 4, -1, 2, 1, -5, 4}), 6);
 }

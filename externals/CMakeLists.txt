@@ -11,8 +11,8 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-target_compile_options(gmock PRIVATE -fsanitize=undefined)
-target_link_options(gmock PRIVATE -fsanitize=undefined)
-target_compile_options(gtest PRIVATE -fsanitize=undefined)
-target_link_options(gtest PRIVATE -fsanitize=undefined)
+#target_compile_options(gmock PRIVATE -fsanitize=undefined)
+#target_link_options(gmock PRIVATE -fsanitize=undefined)
+#target_compile_options(gtest PRIVATE -fsanitize=undefined)
+#target_link_options(gtest PRIVATE -fsanitize=undefined)
 

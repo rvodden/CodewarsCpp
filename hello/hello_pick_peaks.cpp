@@ -1,6 +1,7 @@
 #include "hello.h"
 
 #include <iostream>
+#include <limits>
 
 namespace hello {
 
@@ -55,4 +56,4 @@ namespace hello {
     return result;
   }
 
-}
+} // namespace hello

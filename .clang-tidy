@@ -1,2 +1,3 @@
 ---
-Checks: -*,google-*,readability-*,performance-*,portability-*
+Checks: -*,google-*,readability-*,performance-*,portability-*,-google-runtime-int
+FormatStyle: google

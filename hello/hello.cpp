@@ -1,10 +1,10 @@
-#include "hello.h"
-
 #include <iostream>
 #include <sstream>
 #include <vector>
 #include <cmath>
+#include <bitset>
 
+#include "hello.h"
 
 int hello::square_digits(int num) {
   std::stringstream sstream;
@@ -87,7 +87,7 @@ std::string hello::to_camel_case(const std::string& text) {
   std::stringstream stream[delimiters.length() + 1];
 
   stream[0] << text;
-  for (unsigned long idx = 0; idx < delimiters.length(); idx++) {
+  for (unsigned long idx = 0; idx < delimiters.length(); idx++) { // NOLINT(google-runtime-int)
     bool first_word = true;
     for(std::string words; std::getline(stream[idx], words, delimiters[idx]); ) {
       if (! first_word ) {  // last time through
@@ -101,8 +101,9 @@ std::string hello::to_camel_case(const std::string& text) {
 }
 
 int hello::countBits(const unsigned long long& num) {
-  std::bitset<64> bitset = std::bitset<64>(num);
-  return bitset.count();
+  short const length = CHAR_BIT*sizeof(unsigned long long);
+  std::bitset<length> bts = std::bitset<length>(num);
+  return bts.count();
 };
 
 int hello::digital_root(int n) {
@@ -135,10 +136,11 @@ std::map<char, unsigned> hello::countLetters(const std::string& string) {
 }
 
 long hello::zeros(const long& n) {
-  long k = std::floor(std::log(n) / std::log(5));
+  int const base = 5;
+  long k = std::floor(std::log(n) / std::log(base));
   long val = 0;
   for (long i = 1; i <= k; i++) {
-    val += std::floor( n / (std::pow(5, i)));
+    val += std::floor( n / (std::pow(base, i)));
   }
   return val;
 }
