@@ -3,7 +3,7 @@
 #include "maze.h"
 
 namespace maze {
-std::map<char, std::string> const Maze::characters{
+std::map<char, std::string> const MazePrinter::characters{
     /* Single line characters */
     {0x0, "┼"},
     {0x1, "┬"},

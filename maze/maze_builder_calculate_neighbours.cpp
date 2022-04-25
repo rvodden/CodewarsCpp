@@ -5,7 +5,9 @@ namespace maze {
 using std::bitset;
 using std::vector;
 
-void Maze::calculate_neighbours() {
+void MazeBuilder::calculate_neighbours(vector<vector<maze_data_t>>& grid) {
+  std::vector<size_t> dimension {grid.front().size(), grid.size()};
+
   // declare row iterators
   vector<vector<maze_data_t>>::iterator prev_row_iterator;
   vector<vector<maze_data_t>>::iterator curr_row_iterator;
@@ -18,8 +20,7 @@ void Maze::calculate_neighbours() {
   vector<maze_data_t>::iterator prev_row_curr_cell_iterator;
   vector<maze_data_t>::iterator next_row_curr_cell_iterator;
 
-  // flags
-
+  // declare flags
   bool first_row = true;
   bool first_cell_of_row = true;
   bool last_cell_of_row = false;
@@ -29,11 +30,11 @@ void Maze::calculate_neighbours() {
   std::size_t cells;
 
   // initialize row iterators
-  prev_row_iterator = curr_row_iterator = this->grid.begin();
+  prev_row_iterator = curr_row_iterator = grid.begin();
   next_row_iterator = std::next(curr_row_iterator);
   rows = 0;
   do {
-    if(rows == this->dimension[1] - 1) last_row = true;
+    if(rows == dimension[1] - 1) last_row = true;
 
     // initialize cell iterators
     curr_row_curr_cell_iterator = curr_row_iterator->begin();
@@ -43,7 +44,7 @@ void Maze::calculate_neighbours() {
 
     cells = 0;
     do {
-      if(cells == this->dimension[0] - 1) last_cell_of_row = true;
+      if(cells == dimension[0] - 1) last_cell_of_row = true;
 
       curr_row_curr_cell_iterator->set(MAZE_NORTH_CLEAR, first_row ? false : !(*prev_row_curr_cell_iterator)[MAZE_WALL]);
       curr_row_curr_cell_iterator->set(MAZE_EAST_CLEAR, last_cell_of_row ? false : !(*curr_row_next_cell_iterator)[MAZE_WALL]);
@@ -61,7 +62,7 @@ void Maze::calculate_neighbours() {
       first_cell_of_row = false;
       last_cell_of_row = false;
       cells++;
-    } while (cells < this->dimension[0]);
+    } while (cells < dimension[0]);
 
     // increment row iterators
     if(!first_row) prev_row_iterator++;
@@ -72,7 +73,7 @@ void Maze::calculate_neighbours() {
     first_row = false;
     first_cell_of_row = true;
     rows++;
-  } while (rows < this->dimension[1]);
+  } while (rows < dimension[1]);
 }
 
 } // namespace maze
