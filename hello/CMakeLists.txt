@@ -5,9 +5,5 @@ target_link_libraries(libhello PRIVATE compiler_flags)
 target_include_directories(libhello INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}> $<INSTALL_INTERFACE:include>)
 target_compile_definitions(libhello PRIVATE "EXPORTING_LIBHELLO")
 
-
-#target_compile_options(libhello PRIVATE -fsanitize=undefined)
-#target_link_options(libhello PRIVATE -fsanitize=undefined)
-
 install(TARGETS libhello DESTINATION lib EXPORT libhello_targets)
 install(FILES hello.h DESTINATION include)
