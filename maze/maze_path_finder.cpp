@@ -2,28 +2,25 @@
 // Created by Richard Vodden on 23/04/2022.
 //
 
-#include "maze.h"
-
 #include <bitset>
 #include <iostream>
+
+#include "maze.h"
 
 namespace maze {
 
 using std::bitset;
 using std::vector;
 
-Maze::Maze(vector<vector<maze_data_t>>& grid) : grid(grid) {}
-
 bool Maze::path_finder() {
   vector<std::size_t> dimension = {this->grid.front().size(), this->grid.size()};
 
   vector<vector<bool>> visited(dimension[1], vector<bool>(dimension[0], false));
 
-  return _path_finder({0, 0}, dimension, visited);
+  return _path_finder({0, 0}, visited);
 }
 
-bool Maze::_path_finder(const std::vector<size_t>& location, vector<std::size_t> const& dimension,
-                        vector<vector<bool>>& visited) {
+bool Maze::_path_finder(const std::vector<size_t>& location, vector<vector<bool>>& visited) {
 
   maze_data_t const& maze_data = this->grid.at(location[1]).at(location[0]);
 
@@ -41,10 +38,12 @@ bool Maze::_path_finder(const std::vector<size_t>& location, vector<std::size_t>
       {location[0], location[1] + 1}, // South
       {location[0] - 1, location[1]}  // West
   };
+
   for(char neighbour = 0; neighbour < 4; neighbour++)
-    if (maze_data[neighbour] and _path_finder(next_step[neighbour], dimension, visited) )
-        return true;
+    if (maze_data[neighbour] and _path_finder(next_step[neighbour],  visited) )
+      return true;
   return false;
+
 }
 
 }  // namespace maze

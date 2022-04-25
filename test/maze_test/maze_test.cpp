@@ -3,8 +3,8 @@
 //
 #include "maze.h"
 
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 namespace maze_test {
 
@@ -14,14 +14,57 @@ using maze::MazePrinter;
 
 using testing::Eq;
 
-typedef std::pair<std::string, bool> maze_test_t;
+typedef std::pair<std::string, unsigned int> shortest_path_t;
 
-class MazeTest : public testing::TestWithParam<maze_test_t> {
+class ShortestPathTest : public testing::TestWithParam<shortest_path_t> {
  public:
   void SetUp() override {
-    maze_test_t pair = GetParam();
-    maze_string      = pair.first;
-    expected_result  = pair.second;
+    shortest_path_t pair = GetParam();
+    maze_string          = pair.first;
+    expected_result      = pair.second;
+  };
+
+ protected:
+  std::string maze_string;
+  int expected_result;
+};
+
+TEST_P(ShortestPathTest, shortestPath) {
+  Maze maze = MazeBuilder::build(maze_string);
+  MazePrinter::print(maze);
+  EXPECT_THAT(maze.shortest_path(), Eq(expected_result));
+}
+
+INSTANTIATE_TEST_SUITE_P(MazeTest, ShortestPathTest,
+                         testing::Values(shortest_path_t ({".W.\n.W.\n...", 4}),shortest_path_t ({".W.\n.W.\nW..", -1}),
+                                         shortest_path_t ({"......\n......\n......\n......\n......\n......", 10}),
+                                         shortest_path_t ({"......\n......\n......\n......\n.....W\n....W.", -1}),
+                                         shortest_path_t ({".", 0}),
+                                         shortest_path_t ({".............\n"
+                                                      "WW.WWWWWWWWW.\n"
+                                                      ".............\n"
+                                                      ".WWW.WWWW.WWW\n"
+                                                      ".............\n"
+                                                      "WWWWW.WW.WWW.\n"
+                                                      "...........W.\n"
+                                                      ".W..WWWWWWWWW\n"
+                                                      ".............\n"
+                                                      "WWWWWWW.WW.W.\n"
+                                                      ".............\n"
+                                                      ".WW.WW.WWWWWW\n"
+                                                      ".............\n",
+                                                      30})
+
+                                             ));
+
+typedef std::pair<std::string, bool> path_finder_test_t;
+
+class PathFinderTest : public testing::TestWithParam<path_finder_test_t> {
+ public:
+  void SetUp() override {
+    path_finder_test_t pair = GetParam();
+    maze_string             = pair.first;
+    expected_result         = pair.second;
   };
 
  protected:
@@ -29,19 +72,16 @@ class MazeTest : public testing::TestWithParam<maze_test_t> {
   bool expected_result;
 };
 
-TEST_P(MazeTest, construction) {
+TEST_P(PathFinderTest, shortestPath) {
   Maze maze = MazeBuilder::build(maze_string);
   MazePrinter::print(maze);
   EXPECT_THAT(maze.path_finder(), Eq(expected_result));
 }
 
-INSTANTIATE_TEST_SUITE_P(ParameterizedMazeTest, MazeTest,
-                         testing::Values(
-                             maze_test_t({".W.\n.W.\n...", true}),
-                             maze_test_t({".W.\n.W.\nW..", false}),
-                             maze_test_t({"......\n......\n......\n......\n......\n......", true}),
-                             maze_test_t({"......\n......\n......\n......\n.....W\n....W.", false})
-                             )
-                         );
-
+INSTANTIATE_TEST_SUITE_P(MazeTest, PathFinderTest,
+                         testing::Values(path_finder_test_t({".W.\n.W.\n...", true}),
+                                         path_finder_test_t({".W.\n.W.\nW..", false}),
+                                         path_finder_test_t({"......\n......\n......\n......\n......\n......", true}),
+                                         path_finder_test_t({"......\n......\n......\n......\n.....W\n....W.", false})
+                                         ));
 }  // namespace maze_test

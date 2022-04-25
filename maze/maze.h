@@ -33,20 +33,22 @@ class Maze {
   friend class MazePrinter;
 
  public:
-  explicit Maze(vector<vector<maze_data_t>>&);
+  explicit Maze(vector<vector<maze_data_t>>& grid) : grid(grid) {};
   ~Maze() { delete &grid; };
 
   bool path_finder();
+  int  shortest_path();
 
  private:
-  bool _path_finder(vector<std::size_t> const&, vector<std::size_t> const&, vector<vector<bool>>&);
+  bool _path_finder(vector<std::size_t> const&, vector<vector<bool>>&);
+  unsigned int _shortest_path(vector<vector<bool>>&, vector<vector<unsigned int>>&);
 
   vector<vector<maze_data_t>>& grid;
 };
 
 class MazeBuilder {
  public:
-  static Maze build(std::string const&);
+  static Maze build(std::string);
 
  private:
   static void calculate_neighbours(vector<vector<maze_data_t>>&);

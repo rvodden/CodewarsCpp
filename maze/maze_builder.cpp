@@ -5,11 +5,20 @@
 
 namespace maze {
 
-Maze MazeBuilder::build(std::string const& input) {
-  std::size_t const width  = input.find_first_of('\n');
-  std::size_t const height = input.size() / width;
+Maze MazeBuilder::build(std::string input) {
+  // strip trailing newlines:
+  while (!input.empty() && input.back() == '\n') {
+    input.pop_back();
+  }
 
-  if ((width + 1) * height - 1 != input.size()) {
+  std::size_t width  = input.find_first_of('\n');
+  std::size_t height = input.size() / width;
+  if(width == std::string::npos) { // no newlines found
+      width = input.size();
+      height = 1;
+  }
+
+  if ((width + 1 ) * height - 1 != input.size()) {
     throw new std::domain_error("Maze grids must have constant row length.");
   }
 
